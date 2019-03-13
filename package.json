@@ -1,0 +1,25 @@
+{
+  "name": "react-storer",
+  "version": "0.0.1",
+  "description": "react-storer",
+  "main": "./lib/react-storer.js",
+  "typings": "./src/react-storer.d.ts",
+  "repository": "https://github.com/wokeyi/react-storer",
+  "author": "wokeyi",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "rollup -c"
+  },
+  "devDependencies": {
+    "@types/react": ">=16.8.0",
+    "rollup": "^1.6.0",
+    "rollup-plugin-typescript": "^1.0.0",
+    "rollup-plugin-uglify": "^6.0.2",
+    "tslib": "^1.9.3",
+    "typescript": "^3.3.3333"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0"
+  }
+}
