@@ -18,17 +18,19 @@ class Storer<S, C> {
   public actions: C & Store<S>
   public otherActions: C
   public store: S
+  public updateReduxStore?: (updatedData: S | Partial<S>) => void
 
   constructor(store: S, otherActions: C) {
     this.store = store
     this.otherActions = otherActions
+    this.initDevTools(store)
   }
 
-  public genContext() {
+  public createContext() {
     return createContext(this.store)
   }
 
-  public genActions() {
+  public createActions() {
     if (!this.actions) {
       this.actions = {
         store: {
@@ -49,7 +51,8 @@ class Storer<S, C> {
   }
 
   public bindSetStore(originalSetState: SetStoreAction<S>) {
-    this.actions.store.setStore = (
+    const actions = this.createActions()
+    actions.store.setStore = (
       state: Partial<S> | S | ((prevState: S) => (S | Partial<S> | null)), 
       callback?: () => void) => {
         // @ts-ignore
@@ -58,6 +61,7 @@ class Storer<S, C> {
             // @ts-ignore
             ? state(store)
             : state
+          this.updateReduxStore && this.updateReduxStore(updated)
           return {
             store: {
               ...store,
@@ -68,6 +72,34 @@ class Storer<S, C> {
     }
   }
 
+  private initDevTools(store: S) {
+    const { NODE_ENV } = process.env
+    const reduxDevTools = NODE_ENV === 'development'
+      && window
+      && window.__REDUX_DEVTOOLS_EXTENSION__
+    if (reduxDevTools) {
+      const features = {
+        jump: true,
+      }
+      const actions = this.createActions()
+      const devTools = reduxDevTools.connect({ name: 'Storer', features })
+      devTools.init(store)
+      devTools.subscribe((data: { type: string, state: S | Partial<S>, payload: any }) => {
+        switch(data.type) {
+          case 'DISPATCH':
+            const { type } = data.payload
+            if (type === 'JUMP_TO_STATE' || type === 'JUMP_TO_ACTION') {
+              actions.store.setStore(data.state)
+            }
+          default:
+            break
+        }
+      })
+      this.updateReduxStore = (data: S | Partial<S>) => {
+        devTools.send({ type: 'setStore' }, data)
+      }
+    }
+  }
 }
 
 export default Storer

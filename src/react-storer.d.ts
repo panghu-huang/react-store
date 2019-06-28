@@ -1,8 +1,14 @@
 import Storer from './Storer'
 
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION__: any
+  }
+}
+
 export as namespace ReactStorer
 
-export function genStorer<S, C>(initialState: S, actions: C): Storer<S, C>
+export function createStorer<S, C>(initialState: S, actions?: C): Storer<S, C>
 
 export type SetStoreAction<S> = (
   state: Partial<S> | S | ((prevState: S) => (S | Partial<S> | null)), 
