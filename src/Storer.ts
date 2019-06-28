@@ -61,12 +61,13 @@ class Storer<S, C> {
             // @ts-ignore
             ? state(store)
             : state
-          this.updateReduxStore && this.updateReduxStore(updated)
+          const updatedStore = {
+            ...store,
+            ...updated,
+          }
+          this.updateReduxStore && this.updateReduxStore(updatedStore)
           return {
-            store: {
-              ...store,
-              ...updated,
-            },
+            store: updatedStore,
           }
         }, callback)
     }
