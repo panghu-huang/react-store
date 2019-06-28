@@ -4,7 +4,7 @@
 
 ```jsx
 import { createBrowserHistory } from 'history'
-import { genStorer } from 'react-storer'
+import { createStorer } from 'react-storer'
 import { IStore, IAction } from 'src/types'
 
 const otherActions: IAction = {
@@ -17,11 +17,11 @@ export const defaultStore: IStore = {
   messages: [],
 }
 
-export const storer = genStorer<IStore, IAction>(defaultStore, otherActions)
+export const storer = createStorer<IStore, IAction>(defaultStore, otherActions)
 
-export const StoreContext = storer.genContext()
+export const StoreContext = storer.createContext()
 
-export const actions = storer.genActions()
+export const actions = storer.createActions()
 ```
 
 > src/App.tsx
