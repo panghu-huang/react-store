@@ -1,11 +1,19 @@
-# React Storer
+# React Store
+
+### 安装
+
+```bash
+$ yarn add @wokeyi/store
+// or
+$ npm install @wokeyi/store
+```
 
 ### 示例
 
 > src/store
 
 ```javascript
-import { create } from 'react-storer'
+import { create } from '@wokeyi/store'
 
 interface IState {
   name: string

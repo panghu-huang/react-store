@@ -4,7 +4,7 @@ import { uglify } from 'rollup-plugin-uglify'
 export default {
   input: 'src/index.tsx',
   output: {
-    file: './lib/react-storer.js',
+    file: './lib/react-store.js',
     format: 'cjs',
   },
   plugins: [

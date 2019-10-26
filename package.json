@@ -1,17 +1,21 @@
 {
-  "name": "react-storer",
+  "name": "@wokeyi/store",
   "version": "2.0.0",
-  "description": "react-storer",
+  "description": "React Hook for accessing state and dispatch",
   "keywords": [
     "react",
     "store",
     "Context",
-    "actions"
+    "Hooks"
   ],
-  "homepage": "https://github.com/wokeyi/react-storer",
-  "main": "./lib/react-storer.js",
+  "files": [
+    "lib",
+    "src"
+  ],
+  "homepage": "https://github.com/wokeyi/react-store",
+  "main": "./lib/react-store.js",
   "typings": "./src/index.tsx",
-  "repository": "https://github.com/wokeyi/react-storer.git",
+  "repository": "https://github.com/wokeyi/react-store.git",
   "author": "wokeyi",
   "license": "MIT",
   "private": false,
