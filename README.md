@@ -1,81 +1,94 @@
 # React Storer
 
+### 示例
+
 > src/store
 
-```jsx
-import { createBrowserHistory } from 'history'
-import { createStorer } from 'react-storer'
-import { IStore, IAction } from 'src/types'
+```javascript
+import { create } from 'react-storer'
 
-const otherActions: IAction = {
-  history: createBrowserHistory(),
+interface IState {
+  name: string
+  age: number
 }
 
-export const defaultStore: IStore = {
-  userInfo: null,
-  price: 0,
-  messages: [],
+type ActionType = {
+  type: 'SET_NAME'
+  name: string
+} | {
+  type: 'SET_AGE',
+  age: number
 }
 
-export const storer = createStorer<IStore, IAction>(defaultStore, otherActions)
+const reducer = (prevState: IState, action: ActionType): IState => {
+  switch (action.type) {
+    case 'SET_NAME':
+      return {
+        ...prevState,
+        name: action.name,
+      }
+    case 'SET_AGE':
+      return {
+        ...prevState,
+        age: action.age,
+      }
+    default:
+      return prevState
+  }
+}
 
-export const StoreContext = storer.createContext()
+const { useStore, useDispatch, StoreProvider } = create<IState, ActionType>(reducer, {
+  age: 0,
+  name: 'default name',
+})
 
-export const actions = storer.createActions()
+export {
+  useStore,
+  useDispatch,
+  StoreProvider,
+}
 ```
 
 > src/App.tsx
 
-```jsx
+```javascript
 import * as React from 'react'
-import { Router } from 'react-router-dom'
-import { createHashHistory } from 'history'
-import { 
-  StoreContext, 
-  defaultStore, 
-  actions, 
-  storer 
-} from 'src/store'
-import { IStore } from 'src/types'
-import MainStackRouter from 'src/routes'
-import './global.scss'
+import { StoreProvider } from 'src/store'
+import Child from './Child'
 
-export interface IAppState {
-  store: IStore
-}
-
-class App extends React.Component<any, IAppState> {
-
-  constructor(props: any) {
-    super(props)
-    this.state = {
-      store: defaultStore,
-    }
-    // bind setStore
-    storer.bindSetStore(
-      this.setState.bind(this)
-    )
-    // add or replace action
-    storer.addAction('history', createHashHistory())
-  }
-
-  public componentDidMount() {
-    // dispatch action
-    actions.store.setStore({ price: 110 })
-  }
-
-  public render() {
-    const { store } = this.state
-    return (
-      <Router history={actions.history}>
-        <StoreContext.Provider value={store}>
-          <MainStackRouter />
-        </StoreContext.Provider>
-      </Router>
-    )
-  }
-
+const App = () => {
+  return (
+    <StoreProvider store={{ age: 1, name: 'default name' }}>
+      <Child/>
+    </StoreProvider>
+  )
 }
 
 export default App
+```
+
+> src/Child.tsx
+
+``` javascript
+import * as React from 'react'
+import { useStore, useDispatch } from 'src/store'
+
+const Child: React.FC = () => {
+  const store = useStore()
+  const dispatch = useDispatch()
+
+  const setAge = React.useCallback(() => {
+    dispatch({
+      type: 'SET_AGE',
+      age: store.age + 1,
+    })
+  }, [store.age])
+  return (
+    <button onClick={setAge}>
+      set age
+    </button>
+  )
+};
+
+export default Child
 ```
