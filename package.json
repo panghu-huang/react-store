@@ -1,6 +1,6 @@
 {
   "name": "react-storer",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "react-storer",
   "keywords": [
     "react",
@@ -10,7 +10,7 @@
   ],
   "homepage": "https://github.com/wokeyi/react-storer",
   "main": "./lib/react-storer.js",
-  "typings": "./src/react-storer.d.ts",
+  "typings": "./src/index.tsx",
   "repository": "https://github.com/wokeyi/react-storer.git",
   "author": "wokeyi",
   "license": "MIT",
