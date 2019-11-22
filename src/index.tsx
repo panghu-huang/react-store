@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 export interface StoreProviderProps<T> {
-  initialState?: T
+  initialState: T
 }
 
 export function create<S, A>(reducer: React.Reducer<S, A>, initialState?: S, displayName = 'StoreContext') {
