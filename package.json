@@ -1,6 +1,6 @@
 {
   "name": "@wokeyi/store",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "React Hook for accessing state and dispatch",
   "keywords": [
     "react",
