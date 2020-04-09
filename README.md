@@ -66,7 +66,7 @@ import Child from './Child'
 
 const App = () => {
   return (
-    <StoreProvider store={{ age: 1, name: 'default name' }}>
+    <StoreProvider initialState={{ age: 1, name: 'default name' }}>
       <Child/>
     </StoreProvider>
   )
